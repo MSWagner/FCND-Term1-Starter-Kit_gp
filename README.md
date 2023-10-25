@@ -108,7 +108,7 @@ I created a dockerfile to create docker image with Ubuntu 18.04 and miniconda 4.
   jupyter notebook --ip=0.0.0.0 --port=8888 --allow-root
   ```
 
-# Using ipython in docker container to controll the drone
+## Using ipython in docker container to control the drone
 - Use the host and add additional ports to the container for controlling the udacidrone simulator
   ```bash
   docker run --add-host=host.docker.internal:host-gateway -p 8888:8888 -p 5760:5760  --platform linux/x86_64 -it -v /path/to/local/dir1:/mount/path/dir1 -v /path/to/local/dir2:/mount/path/dir2 my-image-name
