@@ -80,7 +80,7 @@ I created a dockerfile to create docker image with Ubuntu 18.04 and miniconda 4.
   jupyter notebook --ip=0.0.0.0 --port=8888 --allow-root
   ```
 
-# Docker Conda Environment (MacOS with Apple Silicon (e.g. M1))
+## Solutions for MacOS with Apple Silicon (e.g. M1)
 I created a dockerfile to create docker image with Ubuntu 18.04 and miniconda 4.3.11 to install and create the necessary conda environment.
 - The docker image can be built using following command -
   ```bash
