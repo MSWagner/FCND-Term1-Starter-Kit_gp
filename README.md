@@ -79,3 +79,45 @@ I created a dockerfile to create docker image with Ubuntu 18.04 and miniconda 4.
   ```bash
   jupyter notebook --ip=0.0.0.0 --port=8888 --allow-root
   ```
+
+# Docker Conda Environment (MacOS with Apple Silicon (e.g. M1))
+I created a dockerfile to create docker image with Ubuntu 18.04 and miniconda 4.3.11 to install and create the necessary conda environment.
+- The docker image can be built using following command -
+  ```bash
+  cd docker/
+  docker build --platform linux/x86_64 -t <my-image-name> .
+  ```
+- The docker container can be started using following command -
+  ```bash
+  docker run -p 0.0.0.0:8888:8888/tcp --platform linux/x86_64 -it <my-image-name>
+  ```
+- You can mount the a directory from your pc to the docker container to access the code.
+  ```bash
+  docker run -p 0.0.0.0:8888:8888/tcp --platform linux/x86_64 -it -v /path/on/host:/path/in/container <my-image-name>
+  ```
+- You can use the `-v` option multiple times to mount multiple paths from your local PC to a single container. Here is an example command to mount two directories:
+  ```bash
+  docker run -p 0.0.0.0:8888:8888/tcp --platform linux/x86_64 -it -v /path/to/local/dir1:/mount/path/dir1 -v /path/to/local/dir2:/mount/path/dir2 my-image-name
+  ```
+- Once inside the container source the environment
+  ```bash
+  source activate fcnd_new
+  ```
+- To run jupyter notebook in the docker container -
+  ```bash
+  jupyter notebook --ip=0.0.0.0 --port=8888 --allow-root
+  ```
+
+# Using ipython in docker container to controll the drone
+- Use the host and add additional ports to the container for controlling the udacidrone simulator
+  ```bash
+  docker run --add-host=host.docker.internal:host-gateway -p 8888:8888 -p 5760:5760  --platform linux/x86_64 -it -v /path/to/local/dir1:/mount/path/dir1 -v /path/to/local/dir2:/mount/path/dir2 my-image-name
+  ```
+- Start ipython first and controll the udacidrone simulator with changing the connection argument
+  ```python
+  from udacidrone import Drone
+  from udacidrone.connection import MavlinkConnection
+  conn = MavlinkConnection('tcp:host.docker.internal:5760', threaded=True)
+  drone = Drone(conn)
+  drone.start()
+  ```
